@@ -118,7 +118,10 @@ testFoundation('#open removes the animation class at the end of the animation',
   mockRaf.flush();
   td.verify(mockAdapter.addClass('mdc-simple-menu--animating'));
 
-  td.when(mockNow()).thenReturn(500);
+  // Reduce test flakiness in Safari.
+  window.performance.now = mockNow;
+  td.when(mockNow()).thenReturn(800);
+  mockRaf.flush();
   mockRaf.flush();
   td.verify(mockAdapter.removeClass('mdc-simple-menu--animating'));
 
